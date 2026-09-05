@@ -8,46 +8,71 @@ let userAnswers = [];
 // --- VIEW ROUTER ---
 function switchView(viewId) {
   ['view-login', 'view-dashboard', 'view-quiz', 'view-results'].forEach(id => {
-    document.getElementById(id).classList.add('hidden');
+    const el = document.getElementById(id);
+    if (el) el.classList.add('hidden');
   });
-  document.getElementById(viewId).classList.remove('hidden');
+  const targetView = document.getElementById(viewId);
+  if (targetView) targetView.classList.remove('hidden');
+}
+
+// --- GLOBAL TRIGGER FOR MANUAL BUTTON CLICKS ---
+async function triggerClerkSignIn() {
+  if (window.Clerk) {
+    if (!window.Clerk.loaded) {
+      await window.Clerk.load();
+    }
+    window.Clerk.openSignIn();
+  } else {
+    alert("Authentication engine is still loading. Please wait a second and try again.");
+  }
 }
 
 // --- CLERK AUTHENTICATION INITIALIZATION ---
 window.addEventListener('load', async () => {
-  if (window.Clerk) {
-    clerkInstance = window.Clerk;
-    
-    // Explicitly pass your publishable key into load()
-    await clerkInstance.load({
-      publishableKey: "pk_test_Y3VycmVudC1saW9uZXNzLTM1NTEuY2xlcmsuYWNjb3VudHMuZGV2JA"
-    });
+  // 1. Wait for the Clerk script to attach to the window object (retry loop)
+  let attempts = 0;
+  while (!window.Clerk && attempts < 30) {
+    await new Promise(resolve => setTimeout(resolve, 100));
+    attempts++;
+  }
 
-    if (clerkInstance.user) {
-      mountAuthUI();
-      showDashboard();
-    } else {
-      switchView('view-login');
-      const loginBtn = document.getElementById('btn-login-trigger');
-      if (loginBtn) {
-        loginBtn.onclick = () => clerkInstance.openSignIn();
-      }
-    }
+  if (!window.Clerk) {
+    console.error("Clerk SDK failed to load from CDN.");
+    return;
+  }
+
+  clerkInstance = window.Clerk;
+
+  // 2. Initialize Clerk if not already loaded
+  if (!clerkInstance.loaded) {
+    await clerkInstance.load();
+  }
+
+  // 3. Handle session state
+  if (clerkInstance.user) {
+    mountAuthUI();
+    showDashboard();
   } else {
-    console.error("Clerk SDK failed to load. Ensure your script tag in index.html is correct.");
+    switchView('view-login');
+    const loginBtn = document.getElementById('btn-login-trigger');
+    if (loginBtn) {
+      loginBtn.onclick = () => triggerClerkSignIn();
+    }
   }
 });
 
 function mountAuthUI() {
   const authNode = document.getElementById('auth-node');
-  authNode.innerHTML = '';
-  clerkInstance.mountUserButton(authNode);
+  if (authNode) {
+    authNode.innerHTML = '';
+    clerkInstance.mountUserButton(authNode);
+  }
 }
 
 // --- DASHBOARD & PROGRESS LOGIC ---
 function getCompletedTiers() {
-  if (!clerkInstance.user) return [];
-  return clerkInstance.user.unsafeMetadata.completed || [];
+  if (!clerkInstance || !clerkInstance.user) return [];
+  return clerkInstance.user.unsafeMetadata?.completed || [];
 }
 
 function showDashboard() {
@@ -65,14 +90,16 @@ function updateCardStatus(tier, isUnlocked) {
   const card = document.getElementById(`card-${tier}`);
   const badge = document.getElementById(`badge-${tier}`);
   
-  if (isUnlocked) {
-    card.className = "test-card unlocked";
-    badge.className = "badge badge-unlocked";
-    badge.innerText = "Unlocked";
-  } else {
-    card.className = "test-card locked";
-    badge.className = "badge badge-locked";
-    badge.innerText = "Locked";
+  if (card && badge) {
+    if (isUnlocked) {
+      card.className = "test-card unlocked";
+      badge.className = "badge badge-unlocked";
+      badge.innerText = "Unlocked";
+    } else {
+      card.className = "test-card locked";
+      badge.className = "badge badge-locked";
+      badge.innerText = "Locked";
+    }
   }
 }
 
@@ -90,7 +117,6 @@ async function startTest(tier) {
   }
 
   try {
-    // Dynamically fetch the requested JSON file
     const response = await fetch(`${tier}.json`);
     if (!response.ok) throw new Error(`Could not load ${tier}.json`);
     
@@ -99,12 +125,12 @@ async function startTest(tier) {
     currentQuestionIndex = 0;
     userAnswers = new Array(currentQuestions.length).fill(null);
 
-    document.getElementById('quiz-tier-title').innerText = `${tier} Test`;
+    document.getElementById('quiz-tier-title').innerText = `${tier.toUpperCase()} Test`;
     switchView('view-quiz');
     renderQuestion();
   } catch (error) {
     console.error("Error loading questions:", error);
-    alert("Failed to load quiz questions. Make sure you are running a local web server (e.g. VS Code Live Server).");
+    alert("Failed to load quiz questions.");
   }
 }
 
@@ -157,14 +183,16 @@ async function submitTest() {
 
   const total = currentQuestions.length;
   document.getElementById('score-display').innerText = `${score} / ${total}`;
-  document.getElementById('score-message').innerText = `You scored ${Math.round((score/total)*100)}%`;
+  document.getElementById('score-message').innerText = `You scored ${Math.round((score / total) * 100)}%`;
 
   const completed = getCompletedTiers();
   if (!completed.includes(currentTier)) {
     completed.push(currentTier);
-    await clerkInstance.user.update({
-      unsafeMetadata: { completed }
-    });
+    if (clerkInstance && clerkInstance.user) {
+      await clerkInstance.user.update({
+        unsafeMetadata: { completed }
+      });
+    }
   }
 
   const reviewContainer = document.getElementById('review-container');
