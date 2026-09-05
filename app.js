@@ -15,10 +15,10 @@ function switchView(viewId) {
 
 // --- CLERK AUTHENTICATION INITIALIZATION ---
 window.addEventListener('load', async () => {
-  const clerkFrontendApi = "pk_test_Y3VycmVudC1saW9uZXNzLTM1NTEuY2xlcmsuYWNjb3VudHMuZGV2JA"; 
-  
   if (window.Clerk) {
     clerkInstance = window.Clerk;
+    
+    // Wait for Clerk UI components to load completely
     await clerkInstance.load();
 
     if (clerkInstance.user) {
@@ -26,10 +26,13 @@ window.addEventListener('load', async () => {
       showDashboard();
     } else {
       switchView('view-login');
-      document.getElementById('btn-login-trigger').onclick = () => clerkInstance.openSignIn();
+      const loginBtn = document.getElementById('btn-login-trigger');
+      if (loginBtn) {
+        loginBtn.onclick = () => clerkInstance.openSignIn();
+      }
     }
   } else {
-    console.error("Clerk SDK failed to load. Please set your publishable key.");
+    console.error("Clerk SDK failed to load. Ensure your script tag in index.html is correct.");
   }
 });
 
