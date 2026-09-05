@@ -1,0 +1,223 @@
+// normal.json
+const normalQuestions = [
+  {
+    id: 1,
+    question: "She _____ to the gym every Monday morning.",
+    options: ["go", "goes", "going", "gone"],
+    correct: 1,
+    explanation: "Third-person singular 'she' takes the verb form 'goes' in the present simple tense."
+  },
+  {
+    id: 2,
+    question: "Which word is a synonym of 'Happy'?",
+    options: ["Joyful", "Sorrowful", "Angry", "Tired"],
+    correct: 0,
+    explanation: "'Joyful' means feeling or causing great happiness."
+  },
+  {
+    id: 3,
+    question: "They _____ watching a movie when I called.",
+    options: ["was", "were", "are", "have"],
+    correct: 1,
+    explanation: "'They' requires the plural past continuous auxiliary verb 'were'."
+  },
+  {
+    id: 4,
+    question: "I don't have _____ money left in my wallet.",
+    options: ["many", "some", "any", "no"],
+    correct: 2,
+    explanation: "In negative sentences with uncountable nouns ('money'), 'any' is used."
+  },
+  {
+    id: 5,
+    question: "What is the opposite of 'Ancient'?",
+    options: ["Old", "Modern", "Historic", "Aged"],
+    correct: 1,
+    explanation: "'Modern' refers to present times, which is the opposite of 'ancient'."
+  },
+  {
+    id: 6,
+    question: "He is interested _____ learning new languages.",
+    options: ["on", "at", "in", "with"],
+    correct: 2,
+    explanation: "The adjective 'interested' is followed by the preposition 'in'."
+  },
+  {
+    id: 7,
+    question: "Yesterday, we _____ to the beach.",
+    options: ["go", "went", "gone", "going"],
+    correct: 1,
+    explanation: "'Went' is the simple past tense of 'go'."
+  },
+  {
+    id: 8,
+    question: "This is _____ book I have ever read.",
+    options: ["good", "better", "the best", "best"],
+    correct: 2,
+    explanation: "Superlatives comparing one item against all others require 'the best'."
+  },
+  {
+    id: 9,
+    question: "Choose the correct spelling:",
+    options: ["Recieve", "Receive", "Receve", "Recive"],
+    correct: 1,
+    explanation: "The standard spelling rule is 'i before e except after c' -> 'Receive'."
+  },
+  {
+    id: 10,
+    question: "There isn't _____ milk in the fridge.",
+    options: ["many", "much", "few", "some"],
+    correct: 1,
+    explanation: "'Milk' is an uncountable noun, so 'much' is used in negative statements."
+  },
+  {
+    id: 11,
+    question: "Listen! Somebody _____ at the door.",
+    options: ["knocks", "is knocking", "knocked", "has knocked"],
+    correct: 1,
+    explanation: "Actions happening right now at the time of speaking use present continuous."
+  },
+  {
+    id: 12,
+    question: "What is the past participle of 'Break'?",
+    options: ["Broke", "Broken", "Breaked", "Breaking"],
+    correct: 1,
+    explanation: "The principal parts of break are break (base), broke (past), broken (past participle)."
+  },
+  {
+    id: 13,
+    question: "We usually have lunch _____ noon.",
+    options: ["in", "on", "at", "to"],
+    correct: 2,
+    explanation: "We use 'at' for specific times of day, like 'at noon' or 'at 3 PM'."
+  },
+  {
+    id: 14,
+    question: "Which word means 'to make something larger'?",
+    options: ["Decrease", "Expand", "Shrink", "Halt"],
+    correct: 1,
+    explanation: "'Expand' means to become or make larger or more extensive."
+  },
+  {
+    id: 15,
+    question: "If it rains tomorrow, we _____ stay home.",
+    options: ["would", "will", "did", "have"],
+    correct: 1,
+    explanation: "First conditional uses present simple in the if-clause and 'will + verb' in the result clause."
+  },
+  {
+    id: 16,
+    question: "She is shorter _____ her older sister.",
+    options: ["then", "than", "that", "from"],
+    correct: 1,
+    explanation: "'Than' is used to make comparisons."
+  },
+  {
+    id: 17,
+    question: "Which noun is uncountable?",
+    options: ["Car", "Water", "Apple", "Chair"],
+    correct: 1,
+    explanation: "'Water' is a liquid substance and cannot be counted individually."
+  },
+  {
+    id: 18,
+    question: "He drove _____ through the heavy rain.",
+    options: ["careful", "carefully", "carefulness", "caring"],
+    correct: 1,
+    explanation: "An adverb ('carefully') is required to modify the verb 'drove'."
+  },
+  {
+    id: 19,
+    question: "What is a synonym for 'Huge'?",
+    options: ["Tiny", "Massive", "Narrow", "Short"],
+    correct: 1,
+    explanation: "'Massive' means exceptionally large."
+  },
+  {
+    id: 20,
+    question: "I haven't seen him _____ last week.",
+    options: ["for", "since", "from", "during"],
+    correct: 1,
+    explanation: "'Since' indicates a specific starting point in time."
+  },
+  {
+    id: 21,
+    question: "Where _____ you live?",
+    options: ["does", "do", "are", "is"],
+    correct: 1,
+    explanation: "'Do' is the auxiliary verb used with 'you' in present simple questions."
+  },
+  {
+    id: 22,
+    question: "They _____ finished their homework yet.",
+    options: ["haven't", "hasn't", "didn't", "don't"],
+    correct: 0,
+    explanation: "'They' takes 'haven't' in present perfect tense with 'yet'."
+  },
+  {
+    id: 23,
+    question: "Which sentence is grammatically correct?",
+    options: [
+      "He don't like coffee.",
+      "He doesn't likes coffee.",
+      "He doesn't like coffee.",
+      "He not like coffee."
+    ],
+    correct: 2,
+    explanation: "Auxiliary 'does not' is followed by the base form of the verb ('like')."
+  },
+  {
+    id: 24,
+    question: "What is the plural of 'Child'?",
+    options: ["Childs", "Children", "Childrens", "Childes"],
+    correct: 1,
+    explanation: "'Children' is the irregular plural form of 'child'."
+  },
+  {
+    id: 25,
+    question: "My brother is an _____ engineer.",
+    options: ["a", "an", "the", "no article"],
+    correct: 1,
+    explanation: "'An' is used before singular countable nouns beginning with a vowel sound."
+  },
+  {
+    id: 26,
+    question: "Can you turn _____ the light? It's too dark.",
+    options: ["off", "on", "out", "away"],
+    correct: 1,
+    explanation: "'Turn on' means to activate a light or device."
+  },
+  {
+    id: 27,
+    question: "She is the _____ girl in our class.",
+    options: ["tall", "taller", "tallest", "most tall"],
+    correct: 2,
+    explanation: "Short adjectives take the suffix '-est' for the superlative form."
+  },
+  {
+    id: 28,
+    question: "Which word is an antonym of 'Difficult'?",
+    options: ["Hard", "Easy", "Complex", "Tough"],
+    correct: 1,
+    explanation: "'Easy' is the opposite of 'difficult'."
+  },
+  {
+    id: 29,
+    question: "We _____ going to visit London next summer.",
+    options: ["is", "am", "are", "be"],
+    correct: 2,
+    explanation: "Subject 'We' uses the auxiliary verb 'are' in the 'going to' future structure."
+  },
+  {
+    id: 30,
+    question: "Choose the correct sentence:",
+    options: [
+      "She can to speak French.",
+      "She can speaks French.",
+      "She can speak French.",
+      "She cans speak French."
+    ],
+    correct: 2,
+    explanation: "Modal verb 'can' is followed directly by the bare infinitive ('speak')."
+  }
+];

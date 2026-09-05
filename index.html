@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English Proficiency Testing Platform</title>
+  
+  <link rel="stylesheet" href="style.css">
+
+  <script
+    async
+    crossorigin="anonymous"
+    data-clerk-publishable-key="YOUR_CLERK_PUBLISHABLE_KEY"
+    src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
+    type="text/javascript"
+  ></script>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>English Test Portal</h1>
+      <div id="auth-node"></div>
+    </header>
+
+    <main id="view-login" class="card" style="text-align: center;">
+      <h2>Welcome</h2>
+      <p style="margin: 15px 0; color: var(--text-muted);">Please sign in to access tests and track your progress.</p>
+      <button class="btn" id="btn-login-trigger">Sign In / Register</button>
+    </main>
+
+    <main id="view-dashboard" class="card hidden">
+      <h2>Available Tests</h2>
+      <p style="color: var(--text-muted);">Complete tests sequentially to unlock higher difficulty levels.</p>
+      <div class="test-grid">
+        <div id="card-normal" class="test-card unlocked" onclick="startTest('normal')">
+          <h3>Normal</h3>
+          <p>30 Questions</p>
+          <span class="badge badge-unlocked" id="badge-normal">Unlocked</span>
+        </div>
+        <div id="card-hard" class="test-card locked" onclick="startTest('hard')">
+          <h3>Hard</h3>
+          <p>30 Questions</p>
+          <span class="badge badge-locked" id="badge-hard">Locked</span>
+        </div>
+        <div id="card-advanced" class="test-card locked" onclick="startTest('advanced')">
+          <h3>Advanced</h3>
+          <p>30 Questions</p>
+          <span class="badge badge-locked" id="badge-advanced">Locked</span>
+        </div>
+      </div>
+    </main>
+
+    <main id="view-quiz" class="card hidden">
+      <div class="quiz-header">
+        <span id="quiz-tier-title" style="text-transform: capitalize;"></span>
+        <span id="quiz-progress">Question 1 / 30</span>
+      </div>
+      <div id="quiz-content">
+        <div class="question-text" id="q-text"></div>
+        <div class="options-container" id="q-options"></div>
+      </div>
+      <div style="display: flex; justify-content: space-between;">
+        <button class="btn btn-secondary" id="btn-prev-q" onclick="navigateQuestion(-1)">Previous</button>
+        <button class="btn" id="btn-next-q" onclick="navigateQuestion(1)">Next</button>
+      </div>
+    </main>
+
+    <main id="view-results" class="card hidden">
+      <div class="score-summary">
+        <h2>Test Results</h2>
+        <div class="score-circle" id="score-display">0 / 30</div>
+        <p id="score-message" style="color: var(--text-muted);"></p>
+        <button class="btn" onclick="showDashboard()" style="margin-top: 15px;">Return to Dashboard</button>
+      </div>
+      <hr style="border: none; border-top: 1px solid var(--border); margin: 20px 0;">
+      <h3>Question Review</h3>
+      <div id="review-container"></div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

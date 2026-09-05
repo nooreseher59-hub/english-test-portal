@@ -1,0 +1,218 @@
+// advanced.json
+const advancedQuestions = [
+  {
+    id: 1,
+    question: "The politician’s speech was full of _____ arguments that failed to persuade the critical audience.",
+    options: ["specious", "veracious", "cogent", "trenchant"],
+    correct: 0,
+    explanation: "'Specious' means superficially plausible, but actually wrong or misleading."
+  },
+  {
+    id: 2,
+    question: "Were the evidence _____ presented during trial, the verdict might have differed.",
+    options: ["to have been", "being", "had been", "to be"],
+    correct: 0,
+    explanation: "'Were + subject + to have + past participle' forms an advanced hypothetical condition."
+  },
+  {
+    id: 3,
+    question: "Select the word that is an antonym for 'Obsequious':",
+    options: ["Servile", "Domineering", "Fawning", "Submissive"],
+    correct: 1,
+    explanation: "'Obsequious' means excessively submissive/fawning; 'domineering' is its antonym."
+  },
+  {
+    id: 4,
+    question: "Little _____ how profoundly his research would alter modern medicine.",
+    options: ["he realized", "did he realize", "he had realized", "realized he"],
+    correct: 1,
+    explanation: "Fronted negative adverb 'Little' forces subject-verb inversion."
+  },
+  {
+    id: 5,
+    question: "The CEO was accused of _____ company funds for personal luxury investments.",
+    options: ["embezzling", "exonerating", "substantiating", "vindicating"],
+    correct: 0,
+    explanation: "'Embezzling' means stealing or misappropriating funds placed in one's trust."
+  },
+  {
+    id: 6,
+    question: "So captivating _____ performance that the audience gave a ten-minute standing ovation.",
+    options: ["was her", "her was", "did her", "she was"],
+    correct: 0,
+    explanation: "Inversion after 'So + adjective' structure ('So captivating was her performance...')."
+  },
+  {
+    id: 7,
+    question: "Which term denotes an expression whose meaning cannot be inferred from its literal words?",
+    options: ["Metonymy", "Idiom", "Oxymoron", "Hyperbole"],
+    correct: 1,
+    explanation: "An 'idiom' is a figurative expression non-deducible from individual constituent words."
+  },
+  {
+    id: 8,
+    question: "The scholar’s treatise was so _____ that only specialists in the field could grasp its nuances.",
+    options: ["abstruse", "lucid", "manifest", "pellucid"],
+    correct: 0,
+    explanation: "'Abstruse' means obscure, esoteric, and difficult to understand."
+  },
+  {
+    id: 9,
+    question: "No sooner _____ than the electricity went out completely.",
+    options: ["had we arrived", "we arrived", "did we arrive", "were we arriving"],
+    correct: 0,
+    explanation: "'No sooner' is followed by past perfect in inverted order, paired with 'than'."
+  },
+  {
+    id: 10,
+    question: "He proved to be an _____ adversary, refusing to back down under immense pressure.",
+    options: ["indomitable", "inept", "acquiescent", "unobtrusive"],
+    correct: 0,
+    explanation: "'Indomitable' means impossible to subdue or defeat."
+  },
+  {
+    id: 11,
+    question: "She insisted that the meeting _____ adjourned until the board members arrived.",
+    options: ["be", "was", "is", "were"],
+    correct: 0,
+    explanation: "Mandative subjunctive uses the base verb form ('be')."
+  },
+  {
+    id: 12,
+    question: "Select the sentence that contains a correct use of the subjunctive mood:",
+    options: [
+      "I wish I was a king.",
+      "If I was you, I would leave.",
+      "If he were to resign, the company would collapse.",
+      "It is imperative that he arrives on time."
+    ],
+    correct: 2,
+    explanation: "'If he were to...' correctly employs the past subjunctive for hypothetical conditions."
+  },
+  {
+    id: 13,
+    question: "What is the synonym of 'Laconic'?",
+    options: ["Verbose", "Tersely expressed", "Garrulous", "Loquacious"],
+    correct: 1,
+    explanation: "'Laconic' means using very few words; concise or terse."
+  },
+  {
+    id: 14,
+    question: "The contract was nullified because one of the clauses was deemed _____.",
+    options: ["enforceable", "unenforceable", "unforeseeable", "inevitable"],
+    correct: 1,
+    explanation: "'Unenforceable' terms render legal agreements null and void."
+  },
+  {
+    id: 15,
+    question: "Only by relentless practice _____ mastery over a musical instrument.",
+    options: ["one can achieve", "can one achieve", "one achieves", "achieves one"],
+    correct: 1,
+    explanation: "Prepositional phrases with 'Only by...' placed initial require auxiliary inversion ('can one achieve')."
+  },
+  {
+    id: 16,
+    question: "The author's latest novel is a _____ critique of contemporary consumer culture.",
+    options: ["scathing", "flattering", "bland", "benign"],
+    correct: 0,
+    explanation: "'Scathing' means severely critical, harsh, and cutting."
+  },
+  {
+    id: 17,
+    question: "Choose the correct phrase: 'He acted in accordance _____ the guidelines.'",
+    options: ["to", "with", "for", "by"],
+    correct: 1,
+    explanation: "The standard idiomatic expression is 'in accordance with'."
+  },
+  {
+    id: 18,
+    question: "What does 'Sycophant' mean?",
+    options: ["A rebel", "A flatterer", "A leader", "A scholar"],
+    correct: 1,
+    explanation: "A 'sycophant' acts obsequiously toward someone important to gain advantage."
+  },
+  {
+    id: 19,
+    question: "Try _____ he might, he could not lift the boulder.",
+    options: ["as", "like", "though", "even"],
+    correct: 0,
+    explanation: "The structure 'Try as [subject] might' expresses conceded effort."
+  },
+  {
+    id: 20,
+    question: "The witness’s testimony was _____ with inconsistencies.",
+    options: ["rife", "devoid", "lacking", "destitute"],
+    correct: 0,
+    explanation: "'Rife with' means abundantly filled or plagued with something undesirable."
+  },
+  {
+    id: 21,
+    question: "It is crucial that every candidate _____ the official code of conduct.",
+    options: ["observes", "observe", "observed", "will observe"],
+    correct: 1,
+    explanation: "'It is crucial that...' requires the subjunctive base verb form ('observe')."
+  },
+  {
+    id: 22,
+    question: "Which literary device involves combining contradictory terms, like 'deafening silence'?",
+    options: ["Paradox", "Oxymoron", "Metaphor", "Irony"],
+    correct: 1,
+    explanation: "An 'oxymoron' directly juxtaposes two conflicting terms."
+  },
+  {
+    id: 23,
+    question: "Far _____ it from me to tell you how to run your business.",
+    options: ["be", "is", "were", "being"],
+    correct: 0,
+    explanation: "The fixed subjunctive idiom is 'Far be it from me...'"
+  },
+  {
+    id: 24,
+    question: "The disease caused an _____ loss of memory in affected patients.",
+    options: ["irremediable", "irremediably", "remediable", "remedy"],
+    correct: 0,
+    explanation: "Adjective 'irremediable' means impossible to cure or put right."
+  },
+  {
+    id: 25,
+    question: "Should you _____ any difficulties, please contact customer support.",
+    options: ["encounter", "encountered", "encounters", "will encounter"],
+    correct: 0,
+    explanation: "Inverted conditional using 'Should' takes the base verb form ('encounter')."
+  },
+  {
+    id: 26,
+    question: "Her _____ demeanor masked a deeply calculating mind.",
+    options: ["guileless", "crafty", "astute", "shrewd"],
+    correct: 0,
+    explanation: "'Guileless' means innocent and naive, creating contrast with 'calculating'."
+  },
+  {
+    id: 27,
+    question: "Under no circumstances _____ leave the building during an alarm.",
+    options: ["employees should", "should employees", "employees must", "must be employees"],
+    correct: 1,
+    explanation: "Fronted restrictive phrase 'Under no circumstances' requires modal inversion."
+  },
+  {
+    id: 28,
+    question: "What is the meaning of 'Equivocate'?",
+    options: ["To speak clearly", "To use ambiguous language to conceal truth", "To balance weights", "To prove equal value"],
+    correct: 1,
+    explanation: "'Equivocate' means to use ambiguous language intentionally to conceal the truth."
+  },
+  {
+    id: 29,
+    question: "He was passed _____ for promotion in favor of a younger colleague.",
+    options: ["over", "by", "off", "out"],
+    correct: 0,
+    explanation: "'Pass over' means to ignore or disregard someone's eligibility for a position."
+  },
+  {
+    id: 30,
+    question: "The project was executed with flawless _____, leaving no room for error.",
+    options: ["precision", "precisioner", "precisenessly", "precise"],
+    correct: 0,
+    explanation: "The sentence requires a noun ('precision') following the preposition 'with' and adjective 'flawless'."
+  }
+];
