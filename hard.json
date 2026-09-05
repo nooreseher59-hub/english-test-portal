@@ -1,223 +1,32 @@
-// hard.json
-const hardQuestions = [
-  {
-    id: 1,
-    question: "Had I known about the delayed flight, I _____ earlier.",
-    options: ["would leave", "would have left", "had left", "left"],
-    correct: 1,
-    explanation: "Inverted third conditional requires 'would have + past participle' in the main clause."
-  },
-  {
-    id: 2,
-    question: "The proposal was met with severe opposition and ultimately fell _____.",
-    options: ["through", "out", "off", "behind"],
-    correct: 0,
-    explanation: "'Fall through' is a phrasal verb meaning to fail or not happen."
-  },
-  {
-    id: 3,
-    question: "Select the word closest in meaning to 'Reluctant':",
-    options: ["Eager", "Hesitant", "Prompt", "Decisive"],
-    correct: 1,
-    explanation: "'Reluctant' means unwilling and hesitant."
-  },
-  {
-    id: 4,
-    question: "Neither the manager nor the employees _____ satisfied with the decision.",
-    options: ["was", "were", "is", "be"],
-    correct: 1,
-    explanation: "With 'neither... nor', the verb agrees with the closer subject ('employees' -> 'were')."
-  },
-  {
-    id: 5,
-    question: "She suggested that he _____ a doctor immediately.",
-    options: ["sees", "saw", "see", "would see"],
-    correct: 2,
-    explanation: "The subjunctive mood following verbs of suggestion uses the base form ('see')."
-  },
-  {
-    id: 6,
-    question: "The company suffered heavy losses due to bad management, _____?",
-    options: ["didn't it", "did it", "hasn't it", "doesn't it"],
-    correct: 0,
-    explanation: "The sentence is simple past affirmative, so the tag question must be negative simple past ('didn't it')."
-  },
-  {
-    id: 7,
-    question: "Which term describes someone who speaks many languages?",
-    options: ["Polyglot", "Philanthropist", "Misogynist", "Monolingual"],
-    correct: 0,
-    explanation: "A 'polyglot' is a person who knows and uses several languages."
-  },
-  {
-    id: 8,
-    question: "By this time next year, I _____ my university degree.",
-    options: ["will finish", "will have finished", "am finishing", "have finished"],
-    correct: 1,
-    explanation: "Future Perfect ('will have finished') expresses an action completed before a set time in the future."
-  },
-  {
-    id: 9,
-    question: "The teacher insisted on _____ homework on time.",
-    options: ["them to hand in", "their handing in", "they hand in", "them hand in"],
-    correct: 1,
-    explanation: "Prepositions ('on') take a gerund phrase, and the subject of a gerund is possessive ('their handing in')."
-  },
-  {
-    id: 10,
-    question: "What is an antonym for 'Candid'?",
-    options: ["Frank", "Deceitful", "Honest", "Direct"],
-    correct: 1,
-    explanation: "'Candid' means truthful and straightforward; 'deceitful' is its opposite."
-  },
-  {
-    id: 11,
-    question: "Hardly _____ entered the room when the phone rang.",
-    options: ["had I", "I had", "did I", "I did"],
-    correct: 0,
-    explanation: "Negative adverbial 'Hardly' placed at the start of a sentence causes subject-verb inversion."
-  },
-  {
-    id: 12,
-    question: "He talked as if he _____ everything about the incident.",
-    options: ["knows", "knew", "had known", "has known"],
-    correct: 1,
-    explanation: "'As if' referring to a hypothetical present state takes the past simple ('knew')."
-  },
-  {
-    id: 13,
-    question: "The new regulation comes _____ force next month.",
-    options: ["into", "to", "in", "with"],
-    correct: 0,
-    explanation: "The idiom is 'to come into force', meaning to become active or effective."
-  },
-  {
-    id: 14,
-    question: "Identify the word that means 'lasting for a very short time':",
-    options: ["Eternal", "Ephemeral", "Perpetual", "Enduring"],
-    correct: 1,
-    explanation: "'Ephemeral' means transitory or lasting for a very short time."
-  },
-  {
-    id: 15,
-    question: "You _____ told him about the party; it was supposed to be a surprise!",
-    options: ["mustn't have", "shouldn't have", "needn't have", "couldn't have"],
-    correct: 1,
-    explanation: "'Shouldn't have' expresses regret or criticism regarding a past action."
-  },
-  {
-    id: 16,
-    question: "Despite _____ late, she managed to catch the train.",
-    options: ["of being", "being", "she was", "that she was"],
-    correct: 1,
-    explanation: "'Despite' is a preposition and must be followed directly by a noun or gerund ('being')."
-  },
-  {
-    id: 17,
-    question: "He is notorious _____ making promises he cannot keep.",
-    options: ["for", "with", "about", "to"],
-    correct: 0,
-    explanation: "The adjective 'notorious' pairs with the preposition 'for'."
-  },
-  {
-    id: 18,
-    question: "Find the synonym for 'Meticulous':",
-    options: ["Careless", "Thorough", "Rash", "Negligent"],
-    correct: 1,
-    explanation: "'Meticulous' means showing great attention to detail; very careful and precise."
-  },
-  {
-    id: 19,
-    question: "The manager had the report _____ before the meeting.",
-    options: ["write", "wrote", "written", "writing"],
-    correct: 2,
-    explanation: "Causative form: 'have + object + past participle' ('had the report written')."
-  },
-  {
-    id: 20,
-    question: "It is high time we _____ home.",
-    options: ["go", "went", "should go", "have gone"],
-    correct: 1,
-    explanation: "'It is high time' is followed by the simple past subjunctive structure ('went') to express urgency."
-  },
-  {
-    id: 21,
-    question: "She accused him _____ stealing her documents.",
-    options: ["for", "with", "of", "on"],
-    correct: 2,
-    explanation: "The verb 'accuse' takes the preposition 'of'."
-  },
-  {
-    id: 22,
-    question: "Which of the following sentences contains a dangling modifier?",
-    options: [
-      "Walking down the street, the trees were beautiful.",
-      "Walking down the street, I admired the trees.",
-      "While I was walking down the street, the trees looked beautiful.",
-      "The trees looked beautiful as I walked down the street."
-    ],
-    correct: 0,
-    explanation: "Option A incorrectly implies that the 'trees' were walking down the street."
-  },
-  {
-    id: 23,
-    question: "What does the idiom 'Burn the midnight oil' mean?",
-    options: [
-      "To waste energy",
-      "To work late into the night",
-      "To set something on fire",
-      "To wake up early"
-    ],
-    correct: 1,
-    explanation: "'Burn the midnight oil' means to study or work late at night."
-  },
-  {
-    id: 24,
-    question: "Not only _____ the exam, but she also scored the highest mark.",
-    options: ["she passed", "did she pass", "passed she", "she had passed"],
-    correct: 1,
-    explanation: "'Not only' at the start of a clause triggers subject-auxiliary inversion ('did she pass')."
-  },
-  {
-    id: 25,
-    question: "Choose the word that means 'expressing opinions directly and honestly':",
-    options: ["Outspoken", "Reserved", "Timid", "Ambiguous"],
-    correct: 0,
-    explanation: "'Outspoken' means frank in stating one's opinions."
-  },
-  {
-    id: 26,
-    question: "I would rather you _____ call me after 10 PM.",
-    options: ["don't", "didn't", "not", "won't"],
-    correct: 1,
-    explanation: "'Would rather + subject' takes the simple past to refer to present/future wishes."
-  },
-  {
-    id: 27,
-    question: "The house was destroyed by the storm, _____ was a tragic loss.",
-    options: ["that", "which", "what", "it"],
-    correct: 1,
-    explanation: "Non-defining relative clauses modifying an entire sentence use 'which'."
-  },
-  {
-    id: 28,
-    question: "What is an antonym of 'Prudent'?",
-    options: ["Cautious", "Reckless", "Wise", "Discrete"],
-    correct: 1,
-    explanation: "'Prudent' means acting with care; 'reckless' is its direct opposite."
-  },
-  {
-    id: 29,
-    question: "He is prone _____ making silly mistakes when under stress.",
-    options: ["to", "for", "in", "with"],
-    correct: 0,
-    explanation: "The adjective 'prone' requires the preposition 'to'."
-  },
-  {
-    id: 30,
-    question: "Suppose he _____ you to resign, what would you do?",
-    options: ["ask", "asked", "had asked", "asks"],
-    correct: 1,
-    explanation: "'Suppose' used for hypothetical conditions follows second conditional structure (past simple 'asked')."
-  }
-];
+[
+  { "id": 1, "question": "Had I known about the delayed flight, I _____ earlier.", "options": ["would leave", "would have left", "had left", "left"], "correct": 1, "explanation": "Inverted third conditional requires 'would have + past participle' in the main clause." },
+  { "id": 2, "question": "The proposal was met with severe opposition and ultimately fell _____.", "options": ["through", "out", "off", "behind"], "correct": 0, "explanation": "'Fall through' is a phrasal verb meaning to fail or not happen." },
+  { "id": 3, "question": "Select the word closest in meaning to 'Reluctant':", "options": ["Eager", "Hesitant", "Prompt", "Decisive"], "correct": 1, "explanation": "'Reluctant' means unwilling and hesitant." },
+  { "id": 4, "question": "Neither the manager nor the employees _____ satisfied with the decision.", "options": ["was", "were", "is", "be"], "correct": 1, "explanation": "With 'neither... nor', the verb agrees with the closer subject ('employees' -> 'were')." },
+  { "id": 5, "question": "She suggested that he _____ a doctor immediately.", "options": ["sees", "saw", "see", "would see"], "correct": 2, "explanation": "The subjunctive mood following verbs of suggestion uses the base form ('see')." },
+  { "id": 6, "question": "The company suffered heavy losses due to bad management, _____?", "options": ["didn't it", "did it", "hasn't it", "doesn't it"], "correct": 0, "explanation": "The sentence is simple past affirmative, so the tag question must be negative simple past ('didn't it')." },
+  { "id": 7, "question": "Which term describes someone who speaks many languages?", "options": ["Polyglot", "Philanthropist", "Misogynist", "Monolingual"], "correct": 0, "explanation": "A 'polyglot' is a person who knows and uses several languages." },
+  { "id": 8, "question": "By this time next year, I _____ my university degree.", "options": ["will finish", "will have finished", "am finishing", "have finished"], "correct": 1, "explanation": "Future Perfect ('will have finished') expresses an action completed before a set time in the future." },
+  { "id": 9, "question": "The teacher insisted on _____ homework on time.", "options": ["them to hand in", "their handing in", "they hand in", "them hand in"], "correct": 1, "explanation": "Prepositions ('on') take a gerund phrase, and the subject of a gerund is possessive ('their handing in')." },
+  { "id": 10, "question": "What is an antonym for 'Candid'?", "options": ["Frank", "Deceitful", "Honest", "Direct"], "correct": 1, "explanation": "'Candid' means truthful and straightforward; 'deceitful' is its opposite." },
+  { "id": 11, "question": "Hardly _____ entered the room when the phone rang.", "options": ["had I", "I had", "did I", "I did"], "correct": 0, "explanation": "Negative adverbial 'Hardly' placed at the start of a sentence causes subject-verb inversion." },
+  { "id": 12, "question": "He talked as if he _____ everything about the incident.", "options": ["knows", "knew", "had known", "has known"], "correct": 1, "explanation": "'As if' referring to a hypothetical present state takes the past simple ('knew')." },
+  { "id": 13, "question": "The new regulation comes _____ force next month.", "options": ["into", "to", "in", "with"], "correct": 0, "explanation": "The idiom is 'to come into force', meaning to become active or effective." },
+  { "id": 14, "question": "Identify the word that means 'lasting for a very short time':", "options": ["Eternal", "Ephemeral", "Perpetual", "Enduring"], "correct": 1, "explanation": "'Ephemeral' means transitory or lasting for a very short time." },
+  { "id": 15, "question": "You _____ told him about the party; it was supposed to be a surprise!", "options": ["mustn't have", "shouldn't have", "needn't have", "couldn't have"], "correct": 1, "explanation": "'Shouldn't have' expresses regret or criticism regarding a past action." },
+  { "id": 16, "question": "Despite _____ late, she managed to catch the train.", "options": ["of being", "being", "she was", "that she was"], "correct": 1, "explanation": "'Despite' is a preposition and must be followed directly by a noun or gerund ('being')." },
+  { "id": 17, "question": "He is notorious _____ making promises he cannot keep.", "options": ["for", "with", "about", "to"], "correct": 0, "explanation": "The adjective 'notorious' pairs with the preposition 'for'." },
+  { "id": 18, "question": "Find the synonym for 'Meticulous':", "options": ["Careless", "Thorough", "Rash", "Negligent"], "correct": 1, "explanation": "'Meticulous' means showing great attention to detail; very careful and precise." },
+  { "id": 19, "question": "The manager had the report _____ before the meeting.", "options": ["write", "wrote", "written", "writing"], "correct": 2, "explanation": "Causative form: 'have + object + past participle' ('had the report written')." },
+  { "id": 20, "question": "It is high time we _____ home.", "options": ["go", "went", "should go", "have gone"], "correct": 1, "explanation": "'It is high time' is followed by the simple past subjunctive structure ('went') to express urgency." },
+  { "id": 21, "question": "She accused him _____ stealing her documents.", "options": ["for", "with", "of", "on"], "correct": 2, "explanation": "The verb 'accuse' takes the preposition 'of'." },
+  { "id": 22, "question": "Which of the following sentences contains a dangling modifier?", "options": ["Walking down the street, the trees were beautiful.", "Walking down the street, I admired the trees.", "While I was walking down the street, the trees looked beautiful.", "The trees looked beautiful as I walked down the street."], "correct": 0, "explanation": "Option A incorrectly implies that the 'trees' were walking down the street." },
+  { "id": 23, "question": "What does the idiom 'Burn the midnight oil' mean?", "options": ["To waste energy", "To work late into the night", "To set something on fire", "To wake up early"], "correct": 1, "explanation": "'Burn the midnight oil' means to study or work late at night." },
+  { "id": 24, "question": "Not only _____ the exam, but she also scored the highest mark.", "options": ["she passed", "did she pass", "passed she", "she had passed"], "correct": 1, "explanation": "'Not only' at the start of a clause triggers subject-auxiliary inversion ('did she pass')." },
+  { "id": 25, "question": "Choose the word that means 'expressing opinions directly and honestly':", "options": ["Outspoken", "Reserved", "Timid", "Ambiguous"], "correct": 0, "explanation": "'Outspoken' means frank in stating one's opinions." },
+  { "id": 26, "question": "I would rather you _____ call me after 10 PM.", "options": ["don't", "didn't", "not", "won't"], "correct": 1, "explanation": "'Would rather + subject' takes the simple past to refer to present/future wishes." },
+  { "id": 27, "question": "The house was destroyed by the storm, _____ was a tragic loss.", "options": ["that", "which", "what", "it"], "correct": 1, "explanation": "Non-defining relative clauses modifying an entire sentence use 'which'." },
+  { "id": 28, "question": "What is an antonym of 'Prudent'?", "options": ["Cautious", "Reckless", "Wise", "Discrete"], "correct": 1, "explanation": "'Prudent' means acting with care; 'reckless' is its direct opposite." },
+  { "id": 29, "question": "He is prone _____ making silly mistakes when under stress.", "options": ["to", "for", "in", "with"], "correct": 0, "explanation": "The adjective 'prone' requires the preposition 'to'." },
+  { "id": 30, "question": "Suppose he _____ you to resign, what would you do?", "options": ["ask", "asked", "had asked", "asks"], "correct": 1, "explanation": "'Suppose' used for hypothetical conditions follows second conditional structure (past simple 'asked')." }
+]
