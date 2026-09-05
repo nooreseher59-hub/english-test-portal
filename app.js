@@ -18,8 +18,10 @@ window.addEventListener('load', async () => {
   if (window.Clerk) {
     clerkInstance = window.Clerk;
     
-    // Wait for Clerk UI components to load completely
-    await clerkInstance.load();
+    // Explicitly pass your publishable key into load()
+    await clerkInstance.load({
+      publishableKey: "pk_test_Y3VycmVudC1saW9uZXNzLTM1NTEuY2xlcmsuYWNjb3VudHMuZGV2JA"
+    });
 
     if (clerkInstance.user) {
       mountAuthUI();
