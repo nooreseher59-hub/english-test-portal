@@ -1,6 +1,8 @@
-const SUPABASE_URL = "https://qrzjhczdlnrhsscotnmf.supabase.co/rest/v1/";
+const SUPABASE_URL = "https://qrzjhczdlnrhsscotnmf.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFyempoY3pkbG5yaHNzY290bm1mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg2NzU3NjYsImV4cCI6MjEwNDI1MTc2Nn0.R2v6VqMSEpL0BwpRFcEgSq7o6IrM6A72kIAUji9w8pQ";
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Use supabaseClient to prevent collision with window.supabase
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentUser = null;
 let currentAuthMode = 'login';
@@ -30,7 +32,7 @@ function closeModal() {
 
 /* AUTHENTICATION */
 window.addEventListener('load', async () => {
-  const { data: { session } } = await supabase.auth.getSession();
+  const { data: { session } } = await supabaseClient.auth.getSession();
   if (session) {
     currentUser = session.user;
     updateHeaderUI(true);
@@ -39,7 +41,7 @@ window.addEventListener('load', async () => {
     switchView('view-hero');
   }
 
-  supabase.auth.onAuthStateChange((event, session) => {
+  supabaseClient.auth.onAuthStateChange((event, session) => {
     if (session) {
       currentUser = session.user;
       updateHeaderUI(true);
@@ -59,11 +61,11 @@ async function handleAuthSubmit() {
   if (!email || !password) return alert("Please fill in both fields.");
 
   if (currentAuthMode === 'login') {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
     if (error) alert(error.message);
     else closeModal();
   } else {
-    const { error } = await supabase.auth.signUp({ email, password });
+    const { error } = await supabaseClient.auth.signUp({ email, password });
     if (error) alert(error.message);
     else {
       alert("Registration complete! Check your email.");
@@ -77,7 +79,7 @@ function updateHeaderUI(isLoggedIn) {
   if (isLoggedIn) {
     headerNode.innerHTML = `
       <span style="color: var(--text-muted); align-self: center;">${currentUser.email}</span>
-      <button class="btn-outline" onclick="supabase.auth.signOut()">Logout</button>
+      <button class="btn-outline" onclick="supabaseClient.auth.signOut()">Logout</button>
     `;
   } else {
     headerNode.innerHTML = `
@@ -90,7 +92,7 @@ function updateHeaderUI(isLoggedIn) {
 /* DASHBOARD & PROGRESS */
 async function getCompletedTiers() {
   if (!currentUser) return [];
-  const { data } = await supabase.from('profiles').select('completed_tiers').eq('id', currentUser.id).single();
+  const { data } = await supabaseClient.from('profiles').select('completed_tiers').eq('id', currentUser.id).single();
   return data ? data.completed_tiers || [] : [];
 }
 
@@ -165,7 +167,7 @@ async function submitTest() {
   const completed = await getCompletedTiers();
   if (!completed.includes(currentTier)) {
     completed.push(currentTier);
-    await supabase.from('profiles').update({ completed_tiers: completed }).eq('id', currentUser.id);
+    await supabaseClient.from('profiles').update({ completed_tiers: completed }).eq('id', currentUser.id);
   }
 
   switchView('view-results');
