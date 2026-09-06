@@ -3,81 +3,117 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>English Proficiency Testing Platform</title>
-  
+  <title>English Proficiency Portal</title>
   <link rel="stylesheet" href="style.css">
-
-  <script
-    async
-    crossorigin="anonymous"
-    data-clerk-publishable-key="pk_test_Y3VycmVudC1saW9uZXNzLTM1NTEuY2xlcmsuYWNjb3VudHMuZGV2JA"
-    src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
-    type="text/javascript"
-  ></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
   <div class="container">
     <header>
       <h1>English Test Portal</h1>
-      <div id="auth-node"></div>
+      <div id="auth-header-nodes" class="nav-btns">
+        <button class="btn-outline" onclick="openModal('login')">Login</button>
+        <button class="btn" onclick="openModal('register')">Register</button>
+      </div>
     </header>
 
-    <main id="view-login" class="card" style="text-align: center;">
-      <h2>Welcome</h2>
-      <p style="margin: 15px 0; color: var(--text-muted);">Please sign in to access tests and track your progress.</p>
-      <button class="btn" id="btn-login-trigger" onclick="triggerClerkSignIn()">Sign In / Register</button>
+    <!-- LANDING HERO VIEW -->
+    <main id="view-hero" class="card" style="text-align: center;">
+      <h2>PASS YOUR ENGLISH PROFICIENCY EXAM</h2>
+      <p style="margin: 15px 0; color: var(--text-muted);">
+        Master grammar, vocabulary, and reading comprehension with structured mock tests.
+      </p>
+      <button class="btn" style="font-size: 1.1rem; padding: 12px 30px;" onclick="openModal('login')">Start Test Now</button>
     </main>
 
+    <!-- DASHBOARD VIEW -->
     <main id="view-dashboard" class="card hidden">
-      <h2>Available Tests</h2>
-      <p style="color: var(--text-muted);">Complete tests sequentially to unlock higher difficulty levels.</p>
+      <h2>Select Question Set</h2>
+      <p style="color: var(--text-muted); margin-bottom: 20px;">Complete tests sequentially to unlock higher difficulty levels.</p>
+
       <div class="test-grid">
-        <div id="card-normal" class="test-card unlocked" onclick="startTest('normal')">
+        <div id="card-normal" class="test-card" onclick="startTest('normal')">
           <h3>Normal</h3>
-          <p>30 Questions</p>
-          <span class="badge badge-unlocked" id="badge-normal">Unlocked</span>
+          <p style="color: var(--text-muted);">Standard test set for foundational proficiency.</p>
         </div>
         <div id="card-hard" class="test-card locked" onclick="startTest('hard')">
           <h3>Hard</h3>
-          <p>30 Questions</p>
-          <span class="badge badge-locked" id="badge-hard">Locked</span>
+          <p style="color: var(--text-muted);">Advanced grammar and complex sentence structures.</p>
         </div>
         <div id="card-advanced" class="test-card locked" onclick="startTest('advanced')">
           <h3>Advanced</h3>
-          <p>30 Questions</p>
-          <span class="badge badge-locked" id="badge-advanced">Locked</span>
+          <p style="color: var(--text-muted);">Mastery tier for professional fluency.</p>
         </div>
       </div>
     </main>
 
+    <!-- QUIZ VIEW -->
     <main id="view-quiz" class="card hidden">
-      <div class="quiz-header">
-        <span id="quiz-tier-title" style="text-transform: capitalize;"></span>
-        <span id="quiz-progress">Question 1 / 30</span>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+        <span id="quiz-tier-title" style="font-weight: bold; color: var(--accent);"></span>
+        <span id="quiz-progress" style="color: var(--text-muted);"></span>
       </div>
-      <div id="quiz-content">
-        <div class="question-text" id="q-text"></div>
-        <div class="options-container" id="q-options"></div>
-      </div>
+      <div id="q-text" style="font-size: 1.2rem; margin-bottom: 20px;"></div>
+      <div id="q-options" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;"></div>
       <div style="display: flex; justify-content: space-between;">
-        <button class="btn btn-secondary" id="btn-prev-q" onclick="navigateQuestion(-1)">Previous</button>
+        <button class="btn-outline" id="btn-prev-q" onclick="navigateQuestion(-1)">Previous</button>
         <button class="btn" id="btn-next-q" onclick="navigateQuestion(1)">Next</button>
       </div>
     </main>
 
+    <!-- RESULTS VIEW -->
     <main id="view-results" class="card hidden">
-      <div class="score-summary">
+      <div style="text-align: center;">
         <h2>Test Results</h2>
-        <div class="score-circle" id="score-display">0 / 30</div>
+        <div id="score-display" style="font-size: 2.5rem; color: var(--accent); margin: 15px 0;"></div>
         <p id="score-message" style="color: var(--text-muted);"></p>
-        <button class="btn" onclick="showDashboard()" style="margin-top: 15px;">Return to Dashboard</button>
+        <button class="btn" onclick="showDashboard()" style="margin-top: 20px;">Back to Home</button>
       </div>
-      <hr style="border: none; border-top: 1px solid var(--border); margin: 20px 0;">
-      <h3>Question Review</h3>
-      <div id="review-container"></div>
+      <div id="review-container" style="margin-top: 30px;"></div>
+    </main>
+
+    <!-- POLICY & CONTACT VIEWS -->
+    <main id="view-policy" class="card hidden">
+      <h2>Privacy Policy & Disclaimer</h2>
+      <div style="margin-top: 15px; color: var(--text-muted); line-height: 1.6;">
+        <p><strong>1. Educational Purposes Only:</strong> All mock exams and material on this site are for learning practice.</p>
+        <p style="margin-top: 10px;"><strong>2. Data Protection:</strong> User progress is stored securely to maintain unlocked tiers across sessions.</p>
+      </div>
+      <button class="btn-outline" onclick="switchView('view-hero')" style="margin-top: 20px;">Close</button>
+    </main>
+
+    <main id="view-contact" class="card hidden">
+      <h2>Contact Us</h2>
+      <p style="margin-top: 15px; color: var(--text-muted);">Have questions or feedback regarding practice material?</p>
+      <p style="margin-top: 10px; color: var(--accent);">Email: support@englishportal.com</p>
+      <button class="btn-outline" onclick="switchView('view-hero')" style="margin-top: 20px;">Close</button>
     </main>
   </div>
+
+  <!-- AUTH POPUP MODAL -->
+  <div id="auth-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal()">✕</button>
+      <h2 id="modal-title" style="text-align: center; margin-bottom: 20px;">LOGIN</h2>
+      <div class="form-group">
+        <input type="email" id="auth-email" placeholder="Email">
+      </div>
+      <div class="form-group">
+        <input type="password" id="auth-password" placeholder="Password">
+      </div>
+      <button class="btn" style="width: 100%; margin-top: 10px;" onclick="handleAuthSubmit()">Submit</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-links">
+      <a onclick="switchView('view-contact')">Contact</a>
+      <a onclick="switchView('view-policy')">Privacy Policy</a>
+    </div>
+    <p>© 2026 English Test Portal</p>
+  </footer>
 
   <script src="app.js"></script>
 </body>

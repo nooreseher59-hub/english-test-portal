@@ -1,223 +1,172 @@
-// --- APPLICATION STATE ---
-let clerkInstance = null;
+const SUPABASE_URL = "https://qrzjhczdlnrhsscotnmf.supabase.co/rest/v1/";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFyempoY3pkbG5yaHNzY290bm1mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg2NzU3NjYsImV4cCI6MjEwNDI1MTc2Nn0.R2v6VqMSEpL0BwpRFcEgSq7o6IrM6A72kIAUji9w8pQ";
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+let currentUser = null;
+let currentAuthMode = 'login';
 let currentTier = null;
 let currentQuestions = [];
 let currentQuestionIndex = 0;
 let userAnswers = [];
 
-// --- VIEW ROUTER ---
 function switchView(viewId) {
-  ['view-login', 'view-dashboard', 'view-quiz', 'view-results'].forEach(id => {
+  ['view-hero', 'view-dashboard', 'view-quiz', 'view-results', 'view-policy', 'view-contact'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.classList.add('hidden');
   });
-  const targetView = document.getElementById(viewId);
-  if (targetView) targetView.classList.remove('hidden');
+  document.getElementById(viewId).classList.remove('hidden');
 }
 
-// --- GLOBAL TRIGGER FOR MANUAL BUTTON CLICKS ---
-async function triggerClerkSignIn() {
-  if (window.Clerk) {
-    if (!window.Clerk.loaded) {
-      await window.Clerk.load();
-    }
-    window.Clerk.openSignIn();
-  } else {
-    alert("Authentication engine is still loading. Please wait a second and try again.");
-  }
+/* MODAL CONTROLS */
+function openModal(mode) {
+  currentAuthMode = mode;
+  document.getElementById('modal-title').innerText = mode.toUpperCase();
+  document.getElementById('auth-modal').classList.remove('hidden');
 }
 
-// --- CLERK AUTHENTICATION INITIALIZATION ---
+function closeModal() {
+  document.getElementById('auth-modal').classList.add('hidden');
+}
+
+/* AUTHENTICATION */
 window.addEventListener('load', async () => {
-  // 1. Wait for the Clerk script to attach to the window object (retry loop)
-  let attempts = 0;
-  while (!window.Clerk && attempts < 30) {
-    await new Promise(resolve => setTimeout(resolve, 100));
-    attempts++;
-  }
-
-  if (!window.Clerk) {
-    console.error("Clerk SDK failed to load from CDN.");
-    return;
-  }
-
-  clerkInstance = window.Clerk;
-
-  // 2. Initialize Clerk if not already loaded
-  if (!clerkInstance.loaded) {
-    await clerkInstance.load();
-  }
-
-  // 3. Handle session state
-  if (clerkInstance.user) {
-    mountAuthUI();
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session) {
+    currentUser = session.user;
+    updateHeaderUI(true);
     showDashboard();
   } else {
-    switchView('view-login');
-    const loginBtn = document.getElementById('btn-login-trigger');
-    if (loginBtn) {
-      loginBtn.onclick = () => triggerClerkSignIn();
-    }
+    switchView('view-hero');
   }
+
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (session) {
+      currentUser = session.user;
+      updateHeaderUI(true);
+      showDashboard();
+    } else {
+      currentUser = null;
+      updateHeaderUI(false);
+      switchView('view-hero');
+    }
+  });
 });
 
-function mountAuthUI() {
-  const authNode = document.getElementById('auth-node');
-  if (authNode) {
-    authNode.innerHTML = '';
-    clerkInstance.mountUserButton(authNode);
-  }
-}
+async function handleAuthSubmit() {
+  const email = document.getElementById('auth-email').value;
+  const password = document.getElementById('auth-password').value;
 
-// --- DASHBOARD & PROGRESS LOGIC ---
-function getCompletedTiers() {
-  if (!clerkInstance || !clerkInstance.user) return [];
-  return clerkInstance.user.unsafeMetadata?.completed || [];
-}
+  if (!email || !password) return alert("Please fill in both fields.");
 
-function showDashboard() {
-  switchView('view-dashboard');
-  const completed = getCompletedTiers();
-
-  const hardUnlocked = completed.includes('normal');
-  const advancedUnlocked = completed.includes('hard');
-
-  updateCardStatus('hard', hardUnlocked);
-  updateCardStatus('advanced', advancedUnlocked);
-}
-
-function updateCardStatus(tier, isUnlocked) {
-  const card = document.getElementById(`card-${tier}`);
-  const badge = document.getElementById(`badge-${tier}`);
-  
-  if (card && badge) {
-    if (isUnlocked) {
-      card.className = "test-card unlocked";
-      badge.className = "badge badge-unlocked";
-      badge.innerText = "Unlocked";
-    } else {
-      card.className = "test-card locked";
-      badge.className = "badge badge-locked";
-      badge.innerText = "Locked";
+  if (currentAuthMode === 'login') {
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) alert(error.message);
+    else closeModal();
+  } else {
+    const { error } = await supabase.auth.signUp({ email, password });
+    if (error) alert(error.message);
+    else {
+      alert("Registration complete! Check your email.");
+      closeModal();
     }
   }
 }
 
-// --- FETCH QUESTIONS FROM JSON FILES ---
-async function startTest(tier) {
-  const completed = getCompletedTiers();
+function updateHeaderUI(isLoggedIn) {
+  const headerNode = document.getElementById('auth-header-nodes');
+  if (isLoggedIn) {
+    headerNode.innerHTML = `
+      <span style="color: var(--text-muted); align-self: center;">${currentUser.email}</span>
+      <button class="btn-outline" onclick="supabase.auth.signOut()">Logout</button>
+    `;
+  } else {
+    headerNode.innerHTML = `
+      <button class="btn-outline" onclick="openModal('login')">Login</button>
+      <button class="btn" onclick="openModal('register')">Register</button>
+    `;
+  }
+}
 
-  if (tier === 'hard' && !completed.includes('normal')) {
-    alert("Please complete and submit the Normal test first to unlock the Hard test.");
-    return;
-  }
-  if (tier === 'advanced' && !completed.includes('hard')) {
-    alert("Please complete and submit the Hard test first to unlock the Advanced test.");
-    return;
-  }
+/* DASHBOARD & PROGRESS */
+async function getCompletedTiers() {
+  if (!currentUser) return [];
+  const { data } = await supabase.from('profiles').select('completed_tiers').eq('id', currentUser.id).single();
+  return data ? data.completed_tiers || [] : [];
+}
+
+async function showDashboard() {
+  switchView('view-dashboard');
+  const completed = await getCompletedTiers();
+
+  const hardCard = document.getElementById('card-hard');
+  const advCard = document.getElementById('card-advanced');
+
+  if (completed.includes('normal')) hardCard.classList.remove('locked');
+  if (completed.includes('hard')) advCard.classList.remove('locked');
+}
+
+/* QUIZ ENGINE */
+async function startTest(tier) {
+  const completed = await getCompletedTiers();
+  if (tier === 'hard' && !completed.includes('normal')) return alert("Complete Normal test first.");
+  if (tier === 'advanced' && !completed.includes('hard')) return alert("Complete Hard test first.");
 
   try {
-    const response = await fetch(`${tier}.json`);
-    if (!response.ok) throw new Error(`Could not load ${tier}.json`);
-    
-    currentQuestions = await response.json();
+    const res = await fetch(`${tier}.json`);
+    currentQuestions = await res.json();
     currentTier = tier;
     currentQuestionIndex = 0;
     userAnswers = new Array(currentQuestions.length).fill(null);
 
-    document.getElementById('quiz-tier-title').innerText = `${tier.toUpperCase()} Test`;
+    document.getElementById('quiz-tier-title').innerText = `${tier.toUpperCase()} TEST`;
     switchView('view-quiz');
     renderQuestion();
-  } catch (error) {
-    console.error("Error loading questions:", error);
-    alert("Failed to load quiz questions.");
+  } catch (e) {
+    alert("Could not load questions.");
   }
 }
 
-// --- QUIZ EXECUTION LOGIC ---
 function renderQuestion() {
-  const qData = currentQuestions[currentQuestionIndex];
-  const total = currentQuestions.length;
+  const q = currentQuestions[currentQuestionIndex];
+  document.getElementById('quiz-progress').innerText = `Question ${currentQuestionIndex + 1} of ${currentQuestions.length}`;
+  document.getElementById('q-text').innerText = `${q.id}. ${q.question}`;
 
-  document.getElementById('quiz-progress').innerText = `Question ${currentQuestionIndex + 1} / ${total}`;
-  document.getElementById('q-text').innerText = `${qData.id}. ${qData.question}`;
-
-  const optionsContainer = document.getElementById('q-options');
-  optionsContainer.innerHTML = '';
-
-  qData.options.forEach((opt, idx) => {
+  const container = document.getElementById('q-options');
+  container.innerHTML = '';
+  q.options.forEach((opt, idx) => {
     const btn = document.createElement('button');
-    btn.className = 'option-btn' + (userAnswers[currentQuestionIndex] === idx ? ' selected' : '');
+    btn.className = 'btn-outline';
+    btn.style.textAlign = 'left';
+    if (userAnswers[currentQuestionIndex] === idx) btn.style.background = 'var(--accent)';
     btn.innerText = opt;
-    btn.onclick = () => selectOption(idx);
-    optionsContainer.appendChild(btn);
+    btn.onclick = () => { userAnswers[currentQuestionIndex] = idx; renderQuestion(); };
+    container.appendChild(btn);
   });
 
   document.getElementById('btn-prev-q').disabled = currentQuestionIndex === 0;
-  document.getElementById('btn-next-q').innerText = currentQuestionIndex === total - 1 ? "Submit Test" : "Next";
+  document.getElementById('btn-next-q').innerText = currentQuestionIndex === currentQuestions.length - 1 ? "Submit" : "Next";
 }
 
-function selectOption(index) {
-  userAnswers[currentQuestionIndex] = index;
-  renderQuestion();
-}
-
-function navigateQuestion(direction) {
-  if (direction === 1 && currentQuestionIndex === currentQuestions.length - 1) {
+function navigateQuestion(dir) {
+  if (dir === 1 && currentQuestionIndex === currentQuestions.length - 1) {
     submitTest();
     return;
   }
-  currentQuestionIndex += direction;
+  currentQuestionIndex += dir;
   renderQuestion();
 }
 
-// --- RESULTS & METADATA SAVE ---
 async function submitTest() {
   let score = 0;
+  currentQuestions.forEach((q, idx) => { if (userAnswers[idx] === q.correct) score++; });
 
-  currentQuestions.forEach((q, idx) => {
-    if (userAnswers[idx] === q.correct) {
-      score++;
-    }
-  });
-
-  const total = currentQuestions.length;
-  document.getElementById('score-display').innerText = `${score} / ${total}`;
-  document.getElementById('score-message').innerText = `You scored ${Math.round((score / total) * 100)}%`;
-
-  const completed = getCompletedTiers();
+  document.getElementById('score-display').innerText = `${score} / ${currentQuestions.length}`;
+  
+  const completed = await getCompletedTiers();
   if (!completed.includes(currentTier)) {
     completed.push(currentTier);
-    if (clerkInstance && clerkInstance.user) {
-      await clerkInstance.user.update({
-        unsafeMetadata: { completed }
-      });
-    }
+    await supabase.from('profiles').update({ completed_tiers: completed }).eq('id', currentUser.id);
   }
-
-  const reviewContainer = document.getElementById('review-container');
-  reviewContainer.innerHTML = '';
-
-  currentQuestions.forEach((q, idx) => {
-    const isCorrect = userAnswers[idx] === q.correct;
-    const userPickText = userAnswers[idx] !== null ? q.options[userAnswers[idx]] : "None selected";
-    const correctText = q.options[q.correct];
-
-    const item = document.createElement('div');
-    item.className = 'review-item';
-    item.innerHTML = `
-      <div class="review-status ${isCorrect ? 'review-correct' : 'review-incorrect'}">
-        ${isCorrect ? '✓ Correct' : '✗ Incorrect'}
-      </div>
-      <p><strong>Q${idx + 1}: ${q.question}</strong></p>
-      <p style="margin-top:5px; font-size:0.95rem;">
-        Your Answer: <span style="color:${isCorrect ? 'var(--success)' : 'var(--error)'}">${userPickText}</span>
-        ${!isCorrect ? `| Correct Answer: <strong>${correctText}</strong>` : ''}
-      </p>
-      <div class="explanation">${q.explanation}</div>
-    `;
-    reviewContainer.appendChild(item);
-  });
 
   switchView('view-results');
 }
